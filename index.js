@@ -10,6 +10,7 @@ morgan.token('type', function (req, res) {
 })
 app.use(morgan(':method :response-time :type :status :res[content-length] - :response-time ms'))
 app.use(cors())
+app.use(express.static('build'))
 
 let people = [
   {
@@ -28,10 +29,6 @@ let people = [
     id: 3
   }
 ]
-
-app.get("/", (req, res) => {
-  res.send("<h1>Hello world</h1>")
-})
 
 app.get("/info", (req, res) => {
   res.send(`<p>Puhelinluettelossa ${people.length} henkilön tiedot.</p><p>Tänään on ${new Date()}.</p>`)
