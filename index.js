@@ -12,7 +12,6 @@ morgan.token('type', function (req, res) {
 })
 app.use(morgan(':method :response-time :type :status :res[content-length] - :response-time ms'))
 app.use(cors())
-app.use(express.static('build'))
 
 
 app.get("/info", (req, res) => {
