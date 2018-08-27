@@ -56,36 +56,26 @@ app.get("/api/persons/:id", (req, res) => {
 
 })
 
-
 app.post("/api/persons", (req, res) => {
   const body = req.body
-  console.log(res.json)
 
   if (body.name === "" || body.number === "") {
     return res.status(400).json({error: "Name or number missing."})
   }
 
-  Person
-    .find({name: body.name})
-    .then(result => {
-      if (result) {
-        return res.status(400).send({error: "Name is already in the address book."})
-      } else {
-        const person = new Person({
-            name: body.name,
-            number: body.number
-          })
+  const person = new Person({
+    name: body.name,
+    number: body.number
+  })
 
-        person
-          .save()
-          .then(savedPerson => {
-            res.json(Person.format(person))
-            mongoose.connection.close()
-          })
-          .catch(error => {
-            console.log(error)
-          })
-      }
+   person
+    .save()
+    .then(savedPerson => {
+      console.log("Saved person: ", savedPerson)
+      res.json(Person.format(person))
+    })
+    .catch(error => {
+      console.log("Error: ", error)
     })
 })
 
