@@ -1,18 +1,18 @@
-const express = require('express')
+const express = require("express")
 const app = express()
-const bodyParser = require('body-parser')
-const morgan = require('morgan')
-const cors = require('cors')
-const Person = require('./models/person')
+const bodyParser = require("body-parser")
+const morgan = require("morgan")
+const cors = require("cors")
+const Person = require("./models/person")
 
 
 app.use(bodyParser.json())
-morgan.token('type', function (req, res) {
+morgan.token("type", function (req, res) {
   return JSON.stringify(req.body)
 })
-app.use(morgan(':method :response-time :type :status :res[content-length] - :response-time ms'))
+app.use(morgan(":method :response-time :type :status :res[content-length] - :response-time ms"))
 app.use(cors())
-app.use(express.static('build'))
+app.use(express.static("build"))
 
 
 app.get("/info", (req, res) => {
@@ -50,7 +50,6 @@ app.get("/api/persons/:id", (req, res) => {
       }
     })
     .catch(error => {
-      console.log(error)
       res.status(400).send({ error: "malformatted id"})
     })
 
@@ -69,10 +68,9 @@ app.post("/api/persons", (req, res) => {
     number: body.number
   })
 
-   person
+  person
     .save()
     .then(savedPerson => {
-      console.log("Saved person: ", savedPerson)
       res.json(Person.format(person))
     })
     .catch(error => {
@@ -82,11 +80,10 @@ app.post("/api/persons", (req, res) => {
 
 app.put("/api/persons/:id", (req, res) => {
   const body = req.body
-  console.log(body)
   const person = {
-      name: body.name,
-      number: body.number
-    }
+    name: body.name,
+    number: body.number
+  }
 
   Person
     .findOneAndUpdate({_id: req.params.id}, person, {new: true})
@@ -110,7 +107,7 @@ app.delete("/api/persons/:id", (req, res) => {
 })
 
 const error = (request, response) => {
-  response.status(404).send({error: 'unknown endpoint'})
+  response.status(404).send({error: "unknown endpoint"})
 }
 
 app.use(error)
