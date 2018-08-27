@@ -12,6 +12,7 @@ morgan.token('type', function (req, res) {
 })
 app.use(morgan(':method :response-time :type :status :res[content-length] - :response-time ms'))
 app.use(cors())
+app.use(express.static('build'))
 
 
 app.get("/info", (req, res) => {
@@ -61,6 +62,7 @@ app.post("/api/persons", (req, res) => {
   if (body.name === "" || body.number === "") {
     return res.status(400).json({error: "Name or number missing."})
   }
+
 
   const person = new Person({
     name: body.name,
